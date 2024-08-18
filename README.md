@@ -1,6 +1,6 @@
 # Install process
 
-For a better experience, check the docs: https://install_process.readthedocs.io/
+For a better experience, check the docs: https://install-process.readthedocs.io/en/latest/index.html
 
 A library to help you define your installation processes.
 
