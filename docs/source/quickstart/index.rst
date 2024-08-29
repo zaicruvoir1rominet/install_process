@@ -74,7 +74,8 @@ and an uninstallation sequence. To show what an install-step looks like in code,
 When defining an install step, you need to take care of how to install the step, and how to uninstall it, by
 implementing the ``install`` and ``uninstall`` methods.
 
-Do note that the ``install`` and ``uninstall`` methods docstring ("""Install my database.""" and """Uninstall my database.""") are important, as they will be displayed when your entire install process is launched.
+Do note that the ``install`` and ``uninstall`` methods docstring ("""Install my database.""" and """Uninstall my
+database.""") are important, as they will be displayed when your entire install process is launched.
 
 
 ----
@@ -126,7 +127,8 @@ you may optionally want to group them together.
 ``InstallSteps`` allow you to define a list of steps. Install steps will be installed in the order they are defined
 (an uninstalled in the reverse order).
 
-Do note that the class docstring ("""My Database setup""") is important, as it will be displayed when your entire install process is launched.
+Do note that the class docstring ("""My Database setup""") is important, as it will be displayed when your entire
+install process is launched.
 
 ----
 
@@ -145,8 +147,8 @@ Now we have everything we need to create our installation process:
         UnzipMyFile(),
       ]
 
-``InstallProcess`` works just like ``InstallSteps``, and allows you to define a list of steps. Install steps will be installed
-in the order they are defined (an uninstalled in the reverse order).
+``InstallProcess`` works just like ``InstallSteps``, and allows you to define a list of steps. Install steps will be
+installed in the order they are defined (an uninstalled in the reverse order).
 
 We are now ready to launch out installation. In order to do so, ``ìnstall_process`` provides a command line helper
 function:

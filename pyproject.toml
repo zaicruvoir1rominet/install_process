@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "install_process"
-description = "A simple library to help you define your installation process, in Python !"
+description = "A simple Python library to help you define your installation process"
 readme = "README.md"
 dynamic = ["version"]
 license = { file = "LICENSE" }
@@ -34,6 +34,7 @@ dev = [
 [project.urls]
 Github = "https://github.com/zaicruvoir1rominet/install_process"
 Changelog = "https://github.com/zaicruvoir1rominet/install_process/main/CHANGELOG.md"
+Documentation = "https://install-process.readthedocs.io/en/stable/index.html"
 
 [tool.hatch.envs.default]
 features = ["dev"]

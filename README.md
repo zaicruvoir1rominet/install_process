@@ -1,10 +1,10 @@
 # Install process
 
-For a better experience, check the docs: https://install-process.readthedocs.io/en/latest/index.html
+For a better experience, check the docs: https://install-process.readthedocs.io/en/stable/index.html
 
-A library to help you define your installation processes.
+A Python library to help you define your installation processes.
 
-![quickstart_full_install.png](docs/source/quickstart/quickstart_full_install.png)
+![quickstart_full_install.png](https://install-process.readthedocs.io/en/stable/_images/quickstart_full_install.png)
 
 ## What is ``install_process`` ?
 
@@ -20,8 +20,7 @@ This lib can be compared to tools like [ANSIBLE](https://www.ansible.com/), but 
 
 This lib has no dependencies to be easily installed on computers without internet access.
 
-This is an effort to replace old Windows/Linux scripts with Python scripts
-(check [here](https://github.com/ninjaaron/replacing-bash-scripting-with-python) for more details).
+This is an effort to [replace old Windows/Linux scripts with Python scripts](https://github.com/ninjaaron/replacing-bash-scripting-with-python).  
 It is tested on Linux/Windows (not tested on Mac — though it should probably work just fine).
 
 ## Install
@@ -114,13 +113,13 @@ Now you can install your entire environment:
 ```commandline
 python -m my_environment_setup
 ```
-![quickstart_full_install.png](docs/source/quickstart/quickstart_full_install.png)
+![quickstart_full_install.png](https://install-process.readthedocs.io/en/stable/_images/quickstart_full_install.png)
 
 Uninstall your entire environment, using the `-i` option:
 ```commandline
 python -m my_environment_setup -i uninstall
 ```
-![quickstart_full_install.png](docs/source/quickstart/quickstart_full_uninstall.png)
+![quickstart_full_install.png](https://install-process.readthedocs.io/en/stable/_images/quickstart_full_uninstall.png)
 
 Uninstall then install the entire environment:
 ```commandline
@@ -132,19 +131,19 @@ python -m my_environment_setup -i reinstall
 If you wish to only install/uninstall/reinstall a specific part of your environment, you can do so by providing
 the name of the step you want to install/uninstall/reinstall.
 
-To get the name of all steps (this does not install or uninstall anything):
+To get the names of all steps (this does not install or uninstall anything):
 ```commandline
 python -m my_environment_setup -n
 ```
-![quickstart_step_names.png](docs/source/quickstart/quickstart_step_names.png)
+![quickstart_step_names.png](https://install-process.readthedocs.io/en/stable/_images/quickstart_step_names.png)
 
 Then you can call only a subset of your installation process:
 ```commandline
 python -m my_environment_setup -t Database
 ```
-![quickstart_step_names.png](docs/source/quickstart/quickstart_specific_install.png)
+![quickstart_step_names.png](https://install-process.readthedocs.io/en/stable/_images/quickstart_specific_install.png)
 
 ```commandline
 python -m my_environment_setup -t Database.ConfigureMyDatabase -i reinstall
 ```
-![quickstart_step_names.png](docs/source/quickstart/quickstart_specific_reinstall.png)
+![quickstart_step_names.png](https://install-process.readthedocs.io/en/stable/_images/quickstart_specific_reinstall.png)

@@ -10,7 +10,7 @@ Install Steps
 Basics
 ------
 
-Install-steps are the basic element of install_process. In an install-step, you define an installation sequence,
+Install-steps are the basic elements of install_process. In an install-step, you define an installation sequence,
 and an uninstallation sequence.
 
 Define an install-step by overloading the `InstallStep` class, and implementing the ``install`` and ``uninstall``
@@ -167,7 +167,7 @@ of install-steps by overloading the `InstallSteps` class, and filling the ```ste
             Step3(),
         ]
 
-Note that what is displayedat execution is the group class docstring ("""Group of Step1 and Step2 and Step3""").
+Note that what is displayed at execution is the group class docstring ("""Group of Step1 and Step2 and Step3""").
 
 Just like with an install-step, you may implement the ``install_condition`` and ``uninstall_condition`` methods of your
 group of install-step to add conditions.
@@ -256,13 +256,13 @@ Install Prologue & Epilogue
 ---------------------------
 
 If you wish to add things before/after your installation/uninstallation, you may implement the ``prologue`` and
-``epilogue`` methods of your group of install-process. These will be executed event if you pass a step_name to your
+``epilogue`` methods of your group of install-process. These will be executed even if you pass a step_name to your
 install process (ref. Executing Only a Subset of the Installation Process).
 
 Parallel Install Steps
 ======================
 
-You can execute install-steps  or group of install steps concurrently ("in parallel") if you wish:
+You can execute install-steps or group of install steps concurrently ("in parallel") if you wish:
 
 .. code-block:: python
 

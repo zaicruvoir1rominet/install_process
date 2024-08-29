@@ -2,7 +2,7 @@
 install_process
 ===============
 
-A library to help you define your installation processes.
+A Python library to help you define your installation processes.
 
 .. image:: ./quickstart/quickstart_full_install.png
 

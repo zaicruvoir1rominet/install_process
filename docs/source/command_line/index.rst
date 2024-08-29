@@ -2,7 +2,8 @@
 Install Process Command Line
 ============================
 
-This section describe everything related to install-steps.
+This section describe how to use the install_process command line to install/uninstall stuff, and what are the
+possible options.
 
 
 Set-up CLI
@@ -105,8 +106,8 @@ If you want to *always* display shell commands outputs, you can do so by enablin
 Add Install-Steps Before/After Install
 ------------------------------------------
 
-If you wish to add install-steps (or group of install-steps) before/after executing you install-process, you can do so by
-providing them to ``setup_install``:
+If you wish to add install-steps (or groups of install-steps) before/after executing your install-process,
+you can do so by providing them to ``setup_install``:
 
 .. code-block:: python
 
