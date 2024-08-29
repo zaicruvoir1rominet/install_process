@@ -35,8 +35,9 @@ Here is what the step looks like when it is run in install & uninstall mode:
 Note that what is displayed is the step's ``install`` docstring ("""Install my basic step.""") and ``uninstall``
 docstring ("""Uninstall my basic step.""").
 
-User Messages
--------------
+
+User Messages / User Interaction
+--------------------------------
 
 During your installation process, you may want to send messages to the user. In an install-step, there are 3 levels
 of messages available: normal, warning, error
@@ -48,7 +49,7 @@ of messages available: normal, warning, error
 
     class MyStepWithMessages(InstallStep):
         def install(self) -> None:
-            """Messages in a message step"""
+            """Messages in an install step."""
             self.display.msg("A simple message during setup.")
             self.display.warn("A warning message during setup.")
             self.display.error("An error message during setup.")
@@ -59,6 +60,22 @@ of messages available: normal, warning, error
 Here is what the step looks like when it is run in install mode:
 
 .. image:: ./step_messages.png
+
+If you want to get inputs or passwords from the user, you can use display's ``get_input`` and ``get_password`` methods:
+
+.. code-block:: python
+
+    from install_process import InstallStep
+
+
+    class MyStepWithInputs(InstallStep):
+        def install(self) -> None:
+            """Inputs in an install step."""
+            self.display.get_input("Enter user name: ")
+            self.display.get_password("Enter user password: ")
+
+        def uninstall(self) -> None:
+            """Uninstall my step."""
 
 
 Shell commands
@@ -96,6 +113,7 @@ string, if you need it.
 
 By default, when called with ``self.shell``, shell commands outputs are only displayed to the user if the command fails
 and if ``check_errors``. You can force to *always* display shell command output.
+
 
 Conditions
 ----------

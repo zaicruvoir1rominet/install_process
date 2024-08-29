@@ -64,6 +64,14 @@ class Display(abc.ABC):
         """Display an install error message inside an install step."""
 
     @abc.abstractmethod
+    def get_input(self, _prompt: str) -> str:
+        """Just like the ``input`` function from Python, but using this display"""
+
+    @abc.abstractmethod
+    def get_password(self, _prompt: str) -> str:
+        """Just like the ``getpass.getpass`` function from Python, but using this display"""
+
+    @abc.abstractmethod
     def step_new(self, msg: str) -> None:
         """Setup display for a new install step."""
 
@@ -165,6 +173,14 @@ class DisplayStdout(Display):
                                color=self.RED,
                                indents="┃     "),
               file=self.stdout)
+
+    def get_input(self, _prompt: str) -> str:
+        return input(self._format_msg(_prompt, self.context.index + 1,
+                                      color=self.YELLOW))
+
+    def get_password(self, _prompt: str) -> str:
+        return getpass.getpass(self._format_msg(_prompt, self.context.index + 1,
+                               color=self.YELLOW))
 
     def print(self, msg: str) -> None:
         print(msg, file=self.stdout, end="")
