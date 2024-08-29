@@ -1,5 +1,5 @@
 import io
-from unittest import TestCase
+from unittest import TestCase, mock
 
 from install_process.install import InstallProcess, InstallStep, DisplayStdout, InstallSteps, Config
 
@@ -35,6 +35,18 @@ class TestDisplayStdout(TestCase):
         display.stdout = output
         display.msg('test msg')
         self.assertEqual(f'{display.TABS}{display.TABS}{display.TABS}test msg\x1b[0m\n', output.getvalue())
+
+    def test_get_input(self) -> None:
+        display = DisplayStdout()
+
+        with mock.patch('builtins.input', return_value='user_name'):
+            self.assertEqual('user_name', display.get_input("Enter your name: "))
+
+    def test_get_password(self) -> None:
+        display = DisplayStdout()
+
+        with mock.patch('getpass.getpass', return_value='1234supersafe'):
+            self.assertEqual('1234supersafe', display.get_password("Enter your password: "))
 
     def test_msg_long_string(self) -> None:
         display = DisplayStdout()
@@ -91,6 +103,8 @@ class TestDisplayStdout(TestCase):
         display.error(f'test very l{"o" * 180}ng msg')
         for line in output.getvalue().split('\n'):
             self.assertLessEqual(len(line), display.terminal_width + 30, f'line to long:\n{line}')
+
+
 
     def test_step_new(self) -> None:
         display = DisplayStdout()
