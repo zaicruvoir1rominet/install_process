@@ -53,15 +53,15 @@ class Display(abc.ABC):
 
     @abc.abstractmethod
     def msg(self, msg: str) -> None:
-        """Display an install message inside an install step."""
+        """Display an installation message inside an install-step."""
 
     @abc.abstractmethod
     def warn(self, msg: str) -> None:
-        """Display an install warning message inside an install step."""
+        """Display an installation warning message inside an install-step."""
 
     @abc.abstractmethod
     def error(self, msg: str) -> None:
-        """Display an install error message inside an install step."""
+        """Display an installation error message inside an install-step."""
 
     @abc.abstractmethod
     def get_input(self, _prompt: str) -> str:
@@ -77,31 +77,31 @@ class Display(abc.ABC):
 
     @abc.abstractmethod
     def step_end(self, msg: str) -> None:
-        """End display for an install step."""
+        """End display for an install-step."""
 
     @abc.abstractmethod
     def step_new_parallel(self, msg: str) -> None:
-        """Setup display for a new install step."""
+        """Setup display for a new install-step."""
 
     @abc.abstractmethod
     def step_end_parallel(self, msg: str) -> None:
-        """End display for an install step."""
+        """End display for an install-step."""
 
     @abc.abstractmethod
     def step_skip(self, msg: str) -> None:
-        """End display for an install step, when step is skipped."""
+        """End display for an install-step, when step is skipped."""
 
     @abc.abstractmethod
     def shell_cmd(self, cmd: str) -> None:
-        """Setup display for a new shell command inside an install step."""
+        """Setup display for a new shell command inside an install-step."""
 
     @abc.abstractmethod
     def shell_output(self, output: str) -> None:
-        """Display for a new shell command inside an install step."""
+        """Display for a new shell command inside an install-step."""
 
     @abc.abstractmethod
     def begin_all(self, msg: str) -> None:
-        """Setup display for the entire install process."""
+        """Setup display for the entire install-process."""
 
 
 class DisplayStdout(Display):
@@ -126,7 +126,7 @@ class DisplayStdout(Display):
     def _format_msg(self, msg: str, index: int, first_indent: str = "", indents: str = "", color: str = "") -> str:
         msg_line_max_length = self.terminal_width - len(self.TABS * index) - len(indents) - 1
         if not msg_line_max_length:
-            return msg  # give up !
+            return msg  # give up!
 
         lines = textwrap.wrap(msg, msg_line_max_length)
         if lines:
@@ -288,17 +288,17 @@ class InstallStep(abc.ABC):
         pass
 
     def install_condition(self) -> bool:
-        """Overwrite method if you want to skip install under certain conditions,
+        """Overwrite method if you want to skip installation under certain conditions,
         and explain [here] why install should be skipped, if applicable."""
         return True
 
     def uninstall_condition(self) -> bool:
-        """Overwrite method if you want to skip uninstall under certain conditions,
+        """Overwrite method if you want to skip uninstallation under certain conditions,
         and explain [here] why uninstall should be skipped, if applicable."""
         return True
 
     def total_steps(self) -> int:
-        """Number of steps in this install step(s)."""
+        """Number of steps in this install-step(s)."""
         return 1
 
     def name(self) -> str:
@@ -375,10 +375,10 @@ class InstallStep(abc.ABC):
         self._display.context = context
 
     def _process_install(self) -> None:
-        """Do not overwrite method when defining a new install step.
+        """Do not overwrite method when defining a new install-step.
 
         Notes:
-            Handles display & config for install
+            Handles display & config for installation
         """
         if Config.only_show_names:
             self.display.step_new(f"{self.install.__doc__}    {self.name()}")
@@ -394,10 +394,10 @@ class InstallStep(abc.ABC):
         self.display.step_end("done.")
 
     def _process_uninstall(self) -> None:
-        """Do not overwrite method when defining a new install step.
+        """Do not overwrite method when defining a new install-step.
 
         Notes:
-            Handles display & config for uninstall
+            Handles display & config for uninstallation
         """
         if Config.only_show_names:
             self.display.step_new(f"{self.uninstall.__doc__}    {self.name()}")
@@ -426,19 +426,19 @@ class InstallSteps(InstallStep):
     """A collection of installation steps.
 
     Define installation steps using the ``steps`` class attribute.
-    Docstrings of the install steps class will be displayed during the install process.
+    Docstrings of the install-steps class will be displayed during the install-process.
 
     You may want to overwrite `install_condition` and `uninstall_condition`.
 
     Examples:
 
-        >>> # Define some install steps
+        >>> # Define some install-steps
         ... class InstallPythonDependencies(InstallStep):
         ...     # ...
         ... class SetupPythonDirLayout(InstallStep):
         ...     # ...
         ...
-        ... # Define our collection of install steps
+        ... # Define our collection of install-steps
         ... class SetupPythonEnv(InstallSteps):
         ...     '''Python Env'''
         ...     steps = [
@@ -456,7 +456,7 @@ class InstallSteps(InstallStep):
         super().__init__()
 
     def install(self) -> None:
-        """Do not overwrite method when defining install steps,
+        """Do not overwrite method when defining install-steps,
         use the ``step`` class attribute instead.
 
         Notes:
@@ -469,7 +469,7 @@ class InstallSteps(InstallStep):
         self.context.index -= 1
 
     def uninstall(self) -> None:
-        """Do not overwrite method when defining install steps,
+        """Do not overwrite method when defining install-steps,
         use the ``step`` class attribute instead.
 
         Notes:
@@ -606,7 +606,7 @@ class InstallProcess(InstallSteps):
     """The required collection of installation steps.
 
     Define installation steps using the ``steps`` class attribute.
-    Docstring of the install process class will be displayed during the install process.
+    Docstring of the install-process class will be displayed during the installation process.
 
     You may want to overwrite `prologue` and `epilogue`.
 
