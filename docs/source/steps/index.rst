@@ -150,6 +150,9 @@ Here is what the step looks like when it is run in install & uninstall mode:
 Group of Install Steps
 ======================
 
+Basics
+------
+
 To make life easier when you have hundreds of install-steps, you may want to group some of them. You can define a group
 of install-steps by overloading the `InstallSteps` class, and filling the ```steps`` class attribute:
 
@@ -190,6 +193,9 @@ Note that what is displayed at execution is the group class docstring ("""Group 
 Just like with an install-step, you may implement the ``install_condition`` and ``uninstall_condition`` methods of your
 group of install-step to add conditions.
 
+Groups of Install Steps in Group of Install Steps
+-------------------------------------------------
+
 You can add groups in groups:
 
 .. code-block:: python
@@ -207,6 +213,28 @@ You can add groups in groups:
         ]
 
 
+Install Prologue & Epilogue
+---------------------------
+
+If you wish to add things before/after your installation/uninstallation, fulfill the ``prologue`` and ``epilogue``
+class attributes of ``InstallSteps``. These will be executed even if you pass a step_name to your install process
+(ref. Executing Only a Subset of the Installation Process):
+
+.. code-block:: python
+
+    # [...]
+
+
+    class AnotherGroup(InstallSteps):
+        """Group of a group and some steps"""
+        prologue = Step0()
+        steps = [
+            GroupOfSteps(),
+            Step4(),
+        ]
+        epilogue = Step5()
+
+
 Install Process
 ===============
 
@@ -221,7 +249,7 @@ and works like ann ``InstallSteps``:
     # [...]
 
 
-    class MyInstallProcess(InstallSteps):
+    class MyInstallProcess(InstallProcess):
         """MY INSTALLATION PROCESS"""
         steps = [
             Step0(),
@@ -245,7 +273,7 @@ Running an installation process
 
     # [...]
 
-    class MyInstallProcess(InstallSteps):
+    class MyInstallProcess(InstallProcess):
         #...
 
     if __name__ == '__main__':
@@ -262,7 +290,7 @@ Only this step will be run.
 
     # [...]
 
-    class MyInstallProcess(InstallSteps):
+    class MyInstallProcess(InstallProcess):
         #...
 
     if __name__ == '__main__':
@@ -273,9 +301,9 @@ In the example above, only the install of Step2, in the GroupOfSteps, will be ru
 Install Prologue & Epilogue
 ---------------------------
 
-If you wish to add things before/after your installation/uninstallation, you may implement the ``prologue`` and
-``epilogue`` methods of your group of install-process. These will be executed even if you pass a step_name to your
-install process (ref. Executing Only a Subset of the Installation Process).
+If you wish to add things before/after your installation/uninstallation, fulfill the ``prologue`` and ``epilogue``
+class attributes of ``InstallProcess``. These will be executed even if you pass a step_name to your install process
+(ref. Executing Only a Subset of the Installation Process):
 
 Parallel Install Steps
 ======================

@@ -447,10 +447,16 @@ class InstallSteps(InstallStep):
         ...     ]
     """
 
+    prologue: InstallStep = None
     steps: list[InstallStep] = None
+    epilogue: InstallStep = None
 
     def __init__(self) -> None:
         self._steps = self.steps if self.steps else []
+        if self.prologue:
+            self._steps = [self.prologue] + self._steps
+        if self.epilogue:
+            self._steps = self._steps + [self.epilogue]
         for step in self._steps:
             step.father = self
         super().__init__()
@@ -501,6 +507,7 @@ class InstallSteps(InstallStep):
     @context.setter
     def context(self, context: Context) -> None:
         self._context = context
+        self._display.context = context
         for step in self._steps:
             step.context = context
 
@@ -633,10 +640,10 @@ class InstallProcess(InstallSteps):
 
     def __init__(self, install_step_name: str = "") -> None:
         super().__init__()
-        self._isntall_step_name = install_step_name
+        self._install_step_name = install_step_name
         self._steps_dict = {child_name: child_step for child_name, child_step in self._get_child()}
-        if self._isntall_step_name and self._isntall_step_name not in self._steps_dict:
-            raise ValueError(f"Test step {self._isntall_step_name} does not exist in {self.__class__.__qualname__}")
+        if self._install_step_name and self._install_step_name not in self._steps_dict:
+            raise ValueError(f"Test step {self._install_step_name} does not exist in {self.__class__.__qualname__}")
 
         self.context = Context()
         self.display = DisplayStdout(context=self.context)
@@ -644,13 +651,12 @@ class InstallProcess(InstallSteps):
     def install(self) -> None:
         self.display.begin_all(self.__class__.__doc__)
         self._check_root()
-        self.prologue()
 
-        if self._isntall_step_name:
+        if self._install_step_name:
             self.context.current_step = 1
             self.context.index += 1
-            self.context.step_count = self._steps_dict[self._isntall_step_name].total_steps()
-            self._steps_dict[self._isntall_step_name]._process_install()
+            self.context.step_count = self._steps_dict[self._install_step_name].total_steps()
+            self._steps_dict[self._install_step_name]._process_install()
             self.context.index -= 1
         else:
             self.context.current_step = 0
@@ -658,18 +664,16 @@ class InstallProcess(InstallSteps):
             super().install()
 
         self.display.step_end("done.")
-        self.epilogue()
 
     def uninstall(self) -> None:
         self.display.begin_all(self.__class__.__doc__)
         self._check_root()
-        self.prologue()
 
-        if self._isntall_step_name:
+        if self._install_step_name:
             self.context.current_step = 1
             self.context.index += 1
-            self.context.step_count = self._steps_dict[self._isntall_step_name].total_steps()
-            self._steps_dict[self._isntall_step_name]._process_uninstall()
+            self.context.step_count = self._steps_dict[self._install_step_name].total_steps()
+            self._steps_dict[self._install_step_name]._process_uninstall()
             self.context.index -= 1
         else:
             self.context.current_step = 0
@@ -677,15 +681,6 @@ class InstallProcess(InstallSteps):
             super().uninstall()
 
         self.display.step_end("done.")
-        self.epilogue()
-
-    def prologue(self) -> None:
-        """Any kind of operation to execute before install/uninstall
-        (display summary message, setup things, etc.)"""
-
-    def epilogue(self) -> None:
-        """Any kind of operation to execute after install/uninstall
-        (display recap message, setup things, etc.)"""
 
     def name(self) -> str:
         return ""
@@ -739,8 +734,10 @@ def setup_install(your_install_process: type[InstallProcess],
 
     if prologue:
         install._steps = [prologue] + install._steps
+        prologue.context = install.context
     if epilogue:
         install._steps = install._steps + [epilogue]
+        epilogue.context = install.context
 
     if args.install_type == "install":
         install.install()

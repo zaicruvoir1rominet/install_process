@@ -104,8 +104,6 @@ class TestDisplayStdout(TestCase):
         for line in output.getvalue().split('\n'):
             self.assertLessEqual(len(line), display.terminal_width + 30, f'line to long:\n{line}')
 
-
-
     def test_step_new(self) -> None:
         display = DisplayStdout()
         display.step_new('test step_new')
@@ -322,11 +320,25 @@ class TestInstallStep(TestCase):
 
 class TestInstallSteps(TestCase):
     class InstallStepsSimple(InstallSteps):
-        """A simple collection of install steps."""
+        """A simple collection of install-steps."""
         steps = [
             TestInstallStep.InstallStepSimple(),
             TestInstallStep.InstallStepConditionFalse(),
         ]
+
+    class InstallStepsPrologue(InstallSteps):
+        """Install-steps with prologue."""
+        prologue = TestInstallStep.InstallStepSimple()
+        steps = [
+            TestInstallStep.InstallStepConditionFalse(),
+        ]
+
+    class InstallStepsEpilogue(InstallSteps):
+        """Install-steps with epilogue."""
+        steps = [
+            TestInstallStep.InstallStepConditionFalse(),
+        ]
+        epilogue = TestInstallStep.InstallStepSimple()
 
     def setUp(self) -> None:
         print("")
@@ -357,6 +369,26 @@ class TestInstallSteps(TestCase):
     def test__get_child(self) -> None:
         install_steps = self.InstallStepsSimple()
         print(install_steps._get_child())
+
+    def test_prologue_install(self) -> None:
+        install_steps = self.InstallStepsPrologue()
+        install_steps._process_install()
+        self.assertTrue(TestInstallStep.InstallStepSimple._install_flag)
+
+    def test_prologue_uninstall(self) -> None:
+        install_steps = self.InstallStepsPrologue()
+        install_steps._process_uninstall()
+        self.assertTrue(TestInstallStep.InstallStepSimple._uninstall_flag)
+
+    def test_epilogue_install(self) -> None:
+        install_steps = self.InstallStepsEpilogue()
+        install_steps._process_install()
+        self.assertTrue(TestInstallStep.InstallStepSimple._install_flag)
+
+    def test_epilogue_uninstall(self) -> None:
+        install_steps = self.InstallStepsEpilogue()
+        install_steps._process_uninstall()
+        self.assertTrue(TestInstallStep.InstallStepSimple._uninstall_flag)
 
 
 class TestTopInstall(TestCase):

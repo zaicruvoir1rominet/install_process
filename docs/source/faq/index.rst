@@ -106,8 +106,5 @@ And then call which ever installation you like:
 Is there a way to trigger specific actions before/after install ?
 -----------------------------------------------------------------
 
-You can do so by using overwriting the ``prologue``/``epilogue`` methods of your ``InstallProcess``, or
+You can do so by using fulfilling the ``prologue``/``epilogue`` attributes of your ``InstallProcess``, or
 from the command line by providing steps to the ``prologue``/``epilogue`` parameters of ``setup_install``.
-
-Do note that ``prologue`` will trigger before install, and **before** uninstall ;
-and that ``epilogue`` will trigger after install, and **after** uninstall.
